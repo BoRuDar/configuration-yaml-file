@@ -1,0 +1,5 @@
+service:
+  name: serv1
+  timeout: 15ms
+  alfa:
+    beta: 42
