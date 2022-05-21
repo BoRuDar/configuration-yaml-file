@@ -1,15 +1,15 @@
 package configuration_yaml_file
 
 import (
-	"github.com/BoRuDar/configuration/v4"
-	_ "github.com/BoRuDar/configuration/v4"
-	"gopkg.in/yaml.v2"
 	"reflect"
 	"testing"
 	"time"
+
+	"github.com/BoRuDar/configuration/v4"
+	"gopkg.in/yaml.v2"
 )
 
-func TestJSONFileProvider_json(t *testing.T) {
+func TestYAMLFileProvider_json(t *testing.T) {
 	type test struct {
 		Timeout time.Duration `file_yml:"service.timeout"`
 	}
