@@ -113,7 +113,7 @@ func TestFileProvider_Init(t *testing.T) {
 		NewYAMLFileProvider("./testdata/input.yml"),
 	).SetOptions(
 		configuration.OnFailFnOpt(func(err error) {
-			assert(t, "configurator: field [Test] with tags [file_json:\"void.\"] cannot be set", err.Error())
+			assert(t, "configurator: field [Test] with tags [file_json:\"void.\"] cannot be set. Last Provider error: YAMLFileProvider: key is empty", err.Error())
 		}),
 	).InitValues()
 }
