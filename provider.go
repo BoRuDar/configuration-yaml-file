@@ -34,7 +34,7 @@ func (fp *FileProvider) Name() string {
 }
 
 func (fp *FileProvider) Tag() string {
-	return YAMLFileProviderName
+	return YAMLFileProviderTag
 }
 
 func (fp *FileProvider) Init(_ any) error {

@@ -9,7 +9,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-func TestYAMLFileProvider_json(t *testing.T) {
+func TestYAMLFileProvider(t *testing.T) {
 	type test struct {
 		Timeout time.Duration `file_yml:"service.timeout"`
 	}
@@ -107,4 +107,17 @@ func TestFileProvider_Init(t *testing.T) {
 
 	_, err := configuration.New[i](NewYAMLFileProvider("./testdata/dummy.file"))
 	assert(t, "cannot init [YAMLFileProvider] provider: file must have .yaml/.yml extension", err.Error())
+}
+
+func TestConfiguration(t *testing.T) {
+	type Cfg struct {
+		Name string `file_yml:"service.name"`
+	}
+
+	cfg, err := configuration.New[Cfg](
+		NewYAMLFileProvider("./testdata/input.yml"),
+	)
+
+	assert(t, nil, err)
+	assert(t, "serv1", cfg.Name)
 }
