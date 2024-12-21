@@ -1,7 +1,8 @@
 module github.com/BoRuDar/configuration-yaml-file
 
-go 1.18
+go 1.22
 
-require github.com/BoRuDar/configuration/v4 v4.5.1
-
-require gopkg.in/yaml.v2 v2.4.0
+require (
+	github.com/BoRuDar/configuration/v5 v5.0.0
+	gopkg.in/yaml.v2 v2.4.0
+)
