@@ -8,29 +8,36 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/BoRuDar/configuration/v4"
+	"github.com/BoRuDar/configuration/v5"
 	"gopkg.in/yaml.v2"
 )
 
-const YAMLFileProviderName = `YAMLFileProvider`
+const (
+	YAMLFileProviderName = `YAMLFileProvider`
+	YAMLFileProviderTag  = `file_yml`
+)
 
 var ErrFileMustHaveYMLExt = errors.New("file must have .yaml/.yml extension")
 
 // NewYAMLFileProvider creates new provider which reads values from YAML files.
-func NewYAMLFileProvider(fileName string) (fp *fileProvider) {
-	return &fileProvider{fileName: fileName}
+func NewYAMLFileProvider(fileName string) *FileProvider {
+	return &FileProvider{fileName: fileName}
 }
 
-type fileProvider struct {
+type FileProvider struct {
 	fileName string
 	fileData any
 }
 
-func (fileProvider) Name() string {
+func (fp *FileProvider) Name() string {
 	return YAMLFileProviderName
 }
 
-func (fp *fileProvider) Init(_ any) error {
+func (fp *FileProvider) Tag() string {
+	return YAMLFileProviderName
+}
+
+func (fp *FileProvider) Init(_ any) error {
 	file, err := os.Open(fp.fileName)
 	if err != nil {
 		return err
@@ -51,8 +58,8 @@ func (fp *fileProvider) Init(_ any) error {
 	return yaml.Unmarshal(b, &fp.fileData)
 }
 
-func (fp fileProvider) Provide(field reflect.StructField, v reflect.Value) error {
-	path := field.Tag.Get("file_yml")
+func (fp *FileProvider) Provide(field reflect.StructField, v reflect.Value) error {
+	path := field.Tag.Get(YAMLFileProviderTag)
 	if len(path) == 0 {
 		// field doesn't have a proper tag
 		return fmt.Errorf("%s: key is empty", YAMLFileProviderName)

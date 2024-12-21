@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/BoRuDar/configuration/v4"
+	"github.com/BoRuDar/configuration/v5"
 	"gopkg.in/yaml.v2"
 )
 
@@ -101,19 +101,10 @@ func TestFindValStrByPath(t *testing.T) {
 }
 
 func TestFileProvider_Init(t *testing.T) {
-	i := &struct {
+	type i struct {
 		Test int `file_json:"void."`
-	}{}
+	}
 
-	err := configuration.New(i, NewYAMLFileProvider("./testdata/dummy.file")).InitValues()
+	_, err := configuration.New[i](NewYAMLFileProvider("./testdata/dummy.file"))
 	assert(t, "cannot init [YAMLFileProvider] provider: file must have .yaml/.yml extension", err.Error())
-
-	err = configuration.New(
-		i,
-		NewYAMLFileProvider("./testdata/input.yml"),
-	).SetOptions(
-		configuration.OnFailFnOpt(func(err error) {
-			assert(t, "configurator: field [Test] with tags [file_json:\"void.\"] cannot be set. Last Provider error: YAMLFileProvider: key is empty", err.Error())
-		}),
-	).InitValues()
 }
