@@ -3,7 +3,7 @@ package configuration_yaml_file
 import (
 	"errors"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"os"
 	"reflect"
 	"strings"
@@ -44,7 +44,7 @@ func (fp *FileProvider) Init(_ any) error {
 	}
 	defer file.Close()
 
-	b, err := ioutil.ReadAll(file)
+	b, err := io.ReadAll(file)
 	if err != nil {
 		return err
 	}
